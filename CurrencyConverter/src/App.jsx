@@ -1,3 +1,6 @@
+/*
+* Introduing custom hooks and how to create reusable components.
+*/
 import { useState } from 'react';
 import BackgroundImage from './assets/backgroundImage.jpeg';
 import { InputBox } from './components';

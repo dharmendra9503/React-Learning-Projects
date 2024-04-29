@@ -1,3 +1,6 @@
+/*
+* Introducing useCallback and useEffect hooks
+*/
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 function App() {
