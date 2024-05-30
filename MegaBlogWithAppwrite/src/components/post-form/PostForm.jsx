@@ -3,7 +3,8 @@ import { useForm } from "react-hook-form";
 import { Button, Input, RTE, Select } from "..";
 import appwriteService from "../../appwrite/config";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addPost, removePost, updatePost } from "../../features";
 
 export default function PostForm({ post }) {
     const { register, handleSubmit, watch, setValue, control, getValues } = useForm({
@@ -16,6 +17,7 @@ export default function PostForm({ post }) {
     });
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const userData = useSelector((state) => state.auth.userData);
 
     const submit = async (data) => {
@@ -29,6 +31,11 @@ export default function PostForm({ post }) {
                 ...data,
                 featuredImage: file ? file.$id : undefined,
             });
+            const updatedPost = {
+                lastId: post.$id,
+                updatedPost: dbPost,
+            };
+            dispatch(updatePost(updatedPost));
             if (dbPost) {
                 navigate(`/post/${dbPost.$id}`);
             }
@@ -39,6 +46,7 @@ export default function PostForm({ post }) {
                 const fileId = file.$id;
                 data.featuredImage = fileId;
                 const dbPost = await appwriteService.createPost({ ...data, userId: userData.$id });
+                dispatch(addPost(dbPost));
                 if (dbPost) {
                     navigate(`/post/${dbPost.$id}`);
                 }

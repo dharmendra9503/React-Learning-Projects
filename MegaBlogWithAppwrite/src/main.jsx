@@ -39,7 +39,7 @@ const router = createBrowserRouter(
           </AuthLayout>
         }
       />
-      <Route path='all-posts'
+      <Route path='my-posts'
         element={
           <AuthLayout authentication>
             <AllPostsPage />

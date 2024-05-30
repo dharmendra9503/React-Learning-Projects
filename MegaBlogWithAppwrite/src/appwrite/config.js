@@ -3,7 +3,7 @@ import { Client, ID, Databases, Storage, Query } from "appwrite";
 
 export class Service {
     client = new Client();
-    databases;      
+    databases;
     storage;
 
     /*
@@ -110,6 +110,23 @@ export class Service {
             )
         } catch (error) {
             console.log("Appwrite service :: getPosts :: error", error);
+            return false;
+        }
+    }
+
+    /*
+    * Function to get all posts of a user with the given userId
+    */
+    async getUserPosts(userId) {
+        try {
+            /* This is appwrite's function to get all documents */
+            return await this.databases.listDocuments(
+                conf.appwriteDatabaseId,
+                conf.appwriteCollectionId,
+                [Query.equal("userId", userId)]
+            )
+        } catch (error) {
+            console.log("Appwrite service :: getUserPosts :: error", error);
             return false;
         }
     }

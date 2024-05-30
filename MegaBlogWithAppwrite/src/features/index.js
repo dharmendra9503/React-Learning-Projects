@@ -1,7 +1,12 @@
-import { login } from './auth/authSlice';
-import { logout } from './auth/authSlice';
+import { login, logout } from './auth/authSlice';
+import { postList, userPosts, addPost, removePost, updatePost } from './post/postSlice';
 
 export {
     login,
-    logout
+    logout,
+    postList,
+    userPosts,
+    addPost,
+    removePost,
+    updatePost
 }

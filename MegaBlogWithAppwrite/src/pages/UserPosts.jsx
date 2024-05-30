@@ -1,24 +1,25 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react';
+import { Container, LoadingSpinner, PostCard } from '../components';
 import appwriteService from "../appwrite/config";
-import { Container, LoadingSpinner, PostCard } from '../components'
 import { useDispatch, useSelector } from 'react-redux';
-import { postList } from '../features';
+import { userPosts } from '../features';
 
-function Home() {
+function AllPosts() {
     const [loading, setLoading] = useState(true);
     const dispatch = useDispatch();
-    const posts = useSelector((state) => state.blog.posts);
+    const posts = useSelector((state) => state.blog.userPosts);
+    const userData = useSelector((state) => state.auth.userData);
 
     useEffect(() => {
         if (posts.length !== 0) {
             setLoading(false);
         }
-        appwriteService.getPosts().then((posts) => {
+        appwriteService.getUserPosts(userData.$id).then((posts) => {
             if (posts) {
-                dispatch(postList(posts.documents));
+                dispatch(userPosts(posts.documents));
             }
         }).finally(() => setLoading(false));
-    }, [])
+    }, []);
 
     if (loading) {
         return <LoadingSpinner />
@@ -28,7 +29,7 @@ function Home() {
             <div className="w-full py-8 mt-4 text-center">
                 <Container>
                     <div className="flex flex-wrap">
-                        <div className="p-  2 w-full">
+                        <div className="p-2 w-full">
                             <h1 className="text-2xl font-bold hover:text-gray-500">
                                 No Posts
                             </h1>
@@ -53,4 +54,4 @@ function Home() {
     )
 }
 
-export default Home;
+export default AllPosts;
